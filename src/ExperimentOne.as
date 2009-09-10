@@ -115,18 +115,26 @@ package
 		{
 			log("ExperimentOne.completeHandler()")
 			
-			atypicalLoadComplete = true;
 			var swfBytes : ByteArray = new ByteArray();
 			stream.readBytes(swfBytes);
 			stream.close();
 			swfBytes.endian = Endian.LITTLE_ENDIAN;
 			
-			if( isCompressed( swfBytes ) ) uncompress( swfBytes );
+		//	if( isCompressed( swfBytes ) ) uncompress( swfBytes );
 			
 			updateVersion( swfBytes, 9 );
 			atypicalLoader = new Loader();
+			atypicalLoader.contentLoaderInfo.addEventListener( Event.COMPLETE, atypicalcompleteHandler)
+			
 			atypicalLoader.loadBytes( swfBytes);
 			atypicalLoaderArea.addChild(atypicalLoader);
+			
+			
+		}
+		
+		private function atypicalcompleteHandler( e : Event):void
+		{
+			atypicalLoadComplete = true;
 			if( typicalLoadComplete && atypicalLoadComplete) discernResults();
 			
 			
@@ -136,10 +144,25 @@ package
 			log("ExperimentOne.discernResults()")
 			var typicalLoaderInfo : LoaderInfo = typicalLoader.contentLoaderInfo;
 			var atypicalLoaderInfo : LoaderInfo = atypicalLoader.contentLoaderInfo;
-			trace( "typical load : SWF Version : "+typicalLoaderInfo.swfVersion);
+			trace( "typical load : SWF Version : "+String(typicalLoaderInfo.swfVersion));
 			trace( "atypical load : SWF Version : "+atypicalLoaderInfo.swfVersion);
+			
+			addSwfVersionInfoText("<font size=\"18\">Swf Version contentLoaderInfo.swfVersion <p>"+String(typicalLoaderInfo.swfVersion)+"</font>", typicalLoaderArea )
+			addSwfVersionInfoText("<font size=\"18\">Swf Version contentLoaderInfo.swfVersion <p>"+String(atypicalLoaderInfo.swfVersion)+"</font>", atypicalLoaderArea )
+			
 		}
-		
+		private function addSwfVersionInfoText( version : String, s : Sprite):void
+		{
+				var t : TextField = new TextField();
+				t.htmlText = version;
+				t.width = 400;
+				t.height = 200;
+				t.y = s.height;
+				t.x = s.x;
+				addChild( t);
+				
+			
+		}
 		private function updateVersion( b : ByteArray, version : uint ):void
 		{
 			b[3] = version;
