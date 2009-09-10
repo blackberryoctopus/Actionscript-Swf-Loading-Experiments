@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Carousel Proof of Concept" basedir="." default="all">
+	
+	<property name="FLEX_HOME" value="/usr/share/flex"/>
+	<property name="OUTPUT" value="${basedir}/build"   />
+
+	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+	
+<target name="all" depends="mkdirs" description="Build Force Loader Test" >
+	<mxmlc
+			file="${basedir}/src/ExperimentOne.as"
+			output="${OUTPUT}/ExperimentOne.swf"
+			compiler.optimize="true"
+   			compiler.accessible="true"
+			compiler.debug="true"
+		
+			compiler.verbose-stacktraces="true"                                              
+			incremental="false"
+			>   
+		 	
+			<source-path path-element="${basedir}/src" />
+		
+		
+   
+ 
+	</mxmlc>
+	
+	
+
+
+    <copy todir="/Applications/MAMP/htdocs/examples_tests/versionByteExperiments/" file="${OUTPUT}/ExperimentOne.swf" />
+    <copy todir="/Applications/MAMP/htdocs/examples_tests/versionByteExperiments/" file="${basedir}/html/index.html" />
+
+
+
+</target>
+
+
+	<target name="mkdirs"  description="desc" >
+		<mkdir dir="${OUTPUT}"/>
+	</target>
+	
+	
+	<target name="clean"  description="desc" >
+		<delete dir="${OUTPUT}"/>
+	</target>
+
+
+</project>
