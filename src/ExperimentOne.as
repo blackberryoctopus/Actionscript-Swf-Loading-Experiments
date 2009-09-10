@@ -120,7 +120,7 @@ package
 			stream.close();
 			swfBytes.endian = Endian.LITTLE_ENDIAN;
 			
-		//	if( isCompressed( swfBytes ) ) uncompress( swfBytes );
+	
 			
 			updateVersion( swfBytes, 9 );
 			atypicalLoader = new Loader();
@@ -168,25 +168,7 @@ package
 			b[3] = version;
 		}
 		
-		private function isCompressed(bytes:ByteArray):Boolean
-		{
-			log("ExperimentOne.isCompressed()");
-
-			return bytes[0] == 0x43;
-		}
-		
-		private function uncompress(bytes:ByteArray):void
-		{
-			log("ExperimentOne.uncompress()");
-			var cBytes : ByteArray = new ByteArray();
-			cBytes.writeBytes(bytes, 8);
-			bytes.length = 8;
-			bytes.position = 8;
-			cBytes.uncompress();
-			bytes.writeBytes(cBytes);
-			bytes[0] = 0x46;
-			cBytes.length = 0;
-		}
+	
 		
 		private function ioErrorHandler( e : IOErrorEvent):void
 		{
