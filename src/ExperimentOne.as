@@ -9,6 +9,8 @@ package
 	import flash.events.SecurityErrorEvent;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
+	import flash.text.TextField;
+	
 	
 	public class ExperimentOne extends Sprite
 	{
@@ -31,22 +33,30 @@ package
 			log("Experiment One.setupLayout()")
 			
 			typicalLoaderArea = new Sprite();
-		
-			
-			
-			
+			typicalLoaderArea.x = 0;
 			atypicalLoaderArea = new Sprite();
+			atypicalLoaderArea.x = 400;
 		
 			
 			drawBounding( typicalLoaderArea );
 			drawBounding( atypicalLoaderArea );
-			
+			addTextField( "<font size=\"18\">Typical :Loader load</font>", typicalLoaderArea );
+			addTextField( "<font size=\"18\">Atypical :URLStream load</font>", atypicalLoaderArea);
 			
 			addChild(typicalLoaderArea);
 			addChild(atypicalLoaderArea);
 			
 			
 			
+			
+		}
+		
+		private function addTextField( s : String, spr : Sprite ) : void
+		{
+			var t : TextField = new TextField();
+			t.htmlText = s;
+			t.width = 200;
+			spr.addChild(t);
 			
 		}
 		
@@ -60,6 +70,9 @@ package
 		
 		private function loadViaTypicalLoader() : void
 		{
+			var loader :Loader = new Loader();
+			typicalLoaderArea.addChild(loader);
+			loader.load( new URLRequest("http://extralongfingers.com/swf/versionByteManipulation/ExperimentOne/ExperimentOne_Version8_BlueCircle.swf"))
 			
 		}
 		
@@ -86,7 +99,7 @@ package
 			updateVersion( swfBytes, 9 );
 			_loader = new Loader();
 			_loader.loadBytes( swfBytes);
-			this.addChild(_loader);
+			atypicalLoaderArea.addChild(_loader);
 			
 		}
 		
