@@ -18,6 +18,8 @@ package
 		private var _loader				: Loader;
 		private var atypicalLoaderArea 	: Sprite;
 		private var typicalLoaderArea 	: Sprite;
+		private var typicalLoadComplete	: Boolean = false;
+		private var atypicalLoadComplete: Boolean = false;
 		function ExperimentOne() 
 		{
 		
@@ -70,8 +72,9 @@ package
 		
 		private function loadViaTypicalLoader() : void
 		{
-			var loader :Loader = new Loader();
+			var loader :Loader = new Loader(Event.COMPLETE, typicalcompleteHandler);
 			typicalLoaderArea.addChild(loader);
+			loader.addEventListener( )
 			loader.load( new URLRequest("http://extralongfingers.com/swf/versionByteManipulation/ExperimentOne/ExperimentOne_Version8_BlueCircle.swf"))
 			
 		}
@@ -86,9 +89,15 @@ package
 			stream.load( new URLRequest("http://extralongfingers.com/swf/versionByteManipulation/ExperimentOne/ExperimentOne_Version8_BlueCircle.swf"))
 		
 		}
+		private function typicalcompleteHandler(e : Event):void
+		{
+			typicalLoadComplete = true;
+			if( typicalLoadComplete && atypicalLoadComplete) discernResults();
+		}
 		
 		private function completeHandler(e : Event):void
 		{
+			atypicalLoadComplete = true;
 			var swfBytes : ByteArray = new ByteArray();
 			stream.readBytes(swfBytes);
 			stream.close();
@@ -100,6 +109,12 @@ package
 			_loader = new Loader();
 			_loader.loadBytes( swfBytes);
 			atypicalLoaderArea.addChild(_loader);
+			if( typicalLoadComplete && atypicalLoadComplete) discernResults();
+			
+			
+		}
+		private function discernResults():void
+		{
 			
 		}
 		
