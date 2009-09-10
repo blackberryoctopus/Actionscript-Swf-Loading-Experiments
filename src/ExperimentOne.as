@@ -4,6 +4,8 @@ package
 	import flash.net.URLRequest;
 	import flash.display.Sprite;
 	import flash.display.Loader;
+	import flash.display.LoaderInfo;
+	
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
@@ -15,18 +17,23 @@ package
 	public class ExperimentOne extends Sprite
 	{
 		private var stream 				: URLStream;
-		private var _loader				: Loader;
+	
 		private var atypicalLoaderArea 	: Sprite;
 		private var typicalLoaderArea 	: Sprite;
 		private var typicalLoadComplete	: Boolean = false;
 		private var atypicalLoadComplete: Boolean = false;
+		
+		private var typicalLoader 		: Loader;
+		private var atypicalLoader		: Loader;
+		
 		function ExperimentOne() 
 		{
 		
 			log("Experiment One")
 			setupLayout();
-			loadViaUrlStream();
 			loadViaTypicalLoader();
+			loadViaUrlStream();
+			
 			
 		}
 		
@@ -64,6 +71,8 @@ package
 		
 		private function drawBounding( s : Sprite):void
 		{
+			log("ExperimentOne.drawBounding()")
+			
 			s.graphics.lineStyle( 3, 0x0 );
 			s.graphics.beginFill( 0,0);
 			s.graphics.drawRect(0,0,400,300);
@@ -72,16 +81,21 @@ package
 		
 		private function loadViaTypicalLoader() : void
 		{
-			var loader :Loader = new Loader(Event.COMPLETE, typicalcompleteHandler);
-			typicalLoaderArea.addChild(loader);
-			loader.addEventListener( )
-			loader.load( new URLRequest("http://extralongfingers.com/swf/versionByteManipulation/ExperimentOne/ExperimentOne_Version8_BlueCircle.swf"))
+			log("ExperimentOne.loadViaTypicalLoader()")
+			
+			typicalLoader = new Loader();
+			
+			typicalLoaderArea.addChild(typicalLoader);
+			typicalLoader.contentLoaderInfo.addEventListener( Event.COMPLETE, typicalcompleteHandler)
+			typicalLoader.load( new URLRequest("http://extralongfingers.com/swf/versionByteManipulation/ExperimentOne/ExperimentOne_Version8_BlueCircle.swf"))
 			
 		}
 		
 		
 		private function loadViaUrlStream():void
 		{
+			log("ExperimentOne.loadViaUrlStream()")
+			
 			stream = new URLStream();
 			stream.addEventListener(Event.COMPLETE, completeHandler);
 			stream.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
@@ -91,12 +105,16 @@ package
 		}
 		private function typicalcompleteHandler(e : Event):void
 		{
+			log("ExperimentOne.typicalCompleteHandler()")
+			
 			typicalLoadComplete = true;
 			if( typicalLoadComplete && atypicalLoadComplete) discernResults();
 		}
 		
 		private function completeHandler(e : Event):void
 		{
+			log("ExperimentOne.completeHandler()")
+			
 			atypicalLoadComplete = true;
 			var swfBytes : ByteArray = new ByteArray();
 			stream.readBytes(swfBytes);
@@ -106,16 +124,20 @@ package
 			if( isCompressed( swfBytes ) ) uncompress( swfBytes );
 			
 			updateVersion( swfBytes, 9 );
-			_loader = new Loader();
-			_loader.loadBytes( swfBytes);
-			atypicalLoaderArea.addChild(_loader);
+			atypicalLoader = new Loader();
+			atypicalLoader.loadBytes( swfBytes);
+			atypicalLoaderArea.addChild(atypicalLoader);
 			if( typicalLoadComplete && atypicalLoadComplete) discernResults();
 			
 			
 		}
 		private function discernResults():void
 		{
-			
+			log("ExperimentOne.discernResults()")
+			var typicalLoaderInfo : LoaderInfo = typicalLoader.contentLoaderInfo;
+			var atypicalLoaderInfo : LoaderInfo = atypicalLoader.contentLoaderInfo;
+			trace( "typical load : SWF Version : "+typicalLoaderInfo.swfVersion);
+			trace( "atypical load : SWF Version : "+atypicalLoaderInfo.swfVersion);
 		}
 		
 		private function updateVersion( b : ByteArray, version : uint ):void
