@@ -20,16 +20,42 @@
 			>   
 		 	
 			<source-path path-element="${basedir}/src" />
-		
-		
-   
- 
-	</mxmlc>
+		</mxmlc>
+		<mxmlc
+				file="${basedir}/src/ExperimentTwo.as"
+				output="${OUTPUT}/ExperimentTwo.swf"
+				compiler.optimize="true"
+	   			compiler.accessible="true"
+				compiler.debug="true"
+
+				compiler.verbose-stacktraces="true"                                              
+				incremental="false"
+				>   
+
+				<source-path path-element="${basedir}/src" />
+			</mxmlc>
+			
+				<mxmlc
+						file="${basedir}/src/ExperimentThree.as"
+						output="${OUTPUT}/ExperimentThree.swf"
+						compiler.optimize="true"
+			   			compiler.accessible="true"
+						compiler.debug="true"
+
+						compiler.verbose-stacktraces="true"                                              
+						incremental="false"
+						>   
+
+						<source-path path-element="${basedir}/src" />
+					</mxmlc>
 	
 	
 
 
     <copy todir="/Applications/MAMP/htdocs/examples_tests/versionByteExperiments/" file="${OUTPUT}/ExperimentOne.swf" />
+    <copy todir="/Applications/MAMP/htdocs/examples_tests/versionByteExperiments/" file="${OUTPUT}/ExperimentTwo.swf" />
+    <copy todir="/Applications/MAMP/htdocs/examples_tests/versionByteExperiments/" file="${OUTPUT}/ExperimentThree.swf" />
+
     <copy todir="/Applications/MAMP/htdocs/examples_tests/versionByteExperiments/" file="${basedir}/html/index.html" />
 
 

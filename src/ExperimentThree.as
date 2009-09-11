@@ -14,7 +14,7 @@ package
 	import flash.text.TextField;
 	
 	
-	public class ExperimentOne extends Sprite
+	public class ExperimentThree extends Sprite
 	{
 		private var stream 				: URLStream;
 	
@@ -26,7 +26,7 @@ package
 		private var typicalLoader 		: Loader;
 		private var atypicalLoader		: Loader;
 		
-		function ExperimentOne() 
+		function ExperimentThree() 
 		{
 		
 			log("Experiment One")
@@ -71,7 +71,7 @@ package
 		
 		private function drawBounding( s : Sprite):void
 		{
-			log("ExperimentOne.drawBounding()")
+			log("ExperimentThree.drawBounding()")
 			
 			s.graphics.lineStyle( 3, 0x0 );
 			s.graphics.beginFill( 0,0);
@@ -81,7 +81,7 @@ package
 		
 		private function loadViaTypicalLoader() : void
 		{
-			log("ExperimentOne.loadViaTypicalLoader()")
+			log("ExperimentThree.loadViaTypicalLoader()")
 			
 			typicalLoader = new Loader();
 			
@@ -94,7 +94,7 @@ package
 		
 		private function loadViaUrlStream():void
 		{
-			log("ExperimentOne.loadViaUrlStream()")
+			log("ExperimentThree.loadViaUrlStream()")
 			
 			stream = new URLStream();
 			stream.addEventListener(Event.COMPLETE, completeHandler);
@@ -105,7 +105,7 @@ package
 		}
 		private function typicalcompleteHandler(e : Event):void
 		{
-			log("ExperimentOne.typicalCompleteHandler()")
+			log("ExperimentThree.typicalCompleteHandler()")
 			
 			typicalLoadComplete = true;
 			if( typicalLoadComplete && atypicalLoadComplete) discernResults();
@@ -113,7 +113,7 @@ package
 		
 		private function completeHandler(e : Event):void
 		{
-			log("ExperimentOne.completeHandler()")
+			log("ExperimentThree.completeHandler()")
 			
 			var swfBytes : ByteArray = new ByteArray();
 			stream.readBytes(swfBytes);
@@ -122,7 +122,7 @@ package
 			
 	
 			
-			updateVersion( swfBytes, 9 );
+			updateVersion( swfBytes, 200 );
 			atypicalLoader = new Loader();
 			atypicalLoader.contentLoaderInfo.addEventListener( Event.COMPLETE, atypicalcompleteHandler)
 			
@@ -141,7 +141,7 @@ package
 		}
 		private function discernResults():void
 		{
-			log("ExperimentOne.discernResults()")
+			log("ExperimentThree.discernResults()")
 			var typicalLoaderInfo : LoaderInfo = typicalLoader.contentLoaderInfo;
 			var atypicalLoaderInfo : LoaderInfo = atypicalLoader.contentLoaderInfo;
 			trace( "typical load : SWF Version : "+String(typicalLoaderInfo.swfVersion));
