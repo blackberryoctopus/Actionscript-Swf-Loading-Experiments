@@ -91,6 +91,14 @@ package
 			
 		}
 		
+			private function typicalcompleteHandler(e : Event):void
+			{
+				log("ExperimentOne.typicalCompleteHandler()")
+
+				typicalLoadComplete = true;
+				if( typicalLoadComplete && atypicalLoadComplete) discernResults();
+			}
+		
 		
 		private function loadViaUrlStream():void
 		{
@@ -103,13 +111,7 @@ package
 			stream.load( new URLRequest("http://extralongfingers.com/swf/versionByteManipulation/ExperimentOne/ExperimentOne_Version8_BlueCircle.swf"))
 		
 		}
-		private function typicalcompleteHandler(e : Event):void
-		{
-			log("ExperimentOne.typicalCompleteHandler()")
-			
-			typicalLoadComplete = true;
-			if( typicalLoadComplete && atypicalLoadComplete) discernResults();
-		}
+	
 		
 		private function completeHandler(e : Event):void
 		{
@@ -139,6 +141,11 @@ package
 			
 			
 		}
+		
+			private function updateVersion( b : ByteArray, version : uint ):void
+			{
+				b[3] = version;
+			}
 		private function discernResults():void
 		{
 			log("ExperimentOne.discernResults()")
@@ -163,10 +170,7 @@ package
 				
 			
 		}
-		private function updateVersion( b : ByteArray, version : uint ):void
-		{
-			b[3] = version;
-		}
+	
 		
 	
 		
