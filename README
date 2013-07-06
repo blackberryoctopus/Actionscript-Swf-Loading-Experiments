@@ -1,0 +1,2 @@
+1. Load a swf via URLStream and manipulate the byte(s) indicating the swf comiplation version prior to invocation within the flash virtual machine to see what occurs. 
+1. This is an experiment to that was inspired by the org.libspark.utils.ForcibleLoader code 
